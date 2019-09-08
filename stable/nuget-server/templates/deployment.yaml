@@ -35,11 +35,11 @@ spec:
         resources:
 {{ toYaml .Values.resources | indent 10 }}
         env:
-        - name: NUGET_SERVER_API_KEY
+        - name: NUGET_API_KEY
           valueFrom:
             secretKeyRef:
               name: {{ template "nuget-server.secretName" . }}
-              key: NUGET_API_KEY
+              key: NUGET_SERVER_API_KEY
               optional: true
         - name: NUGET_HOST
           value: {{ .Values.nugetHost | quote }}
