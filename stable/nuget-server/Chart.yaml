@@ -1,0 +1,14 @@
+apiVersion: v1
+name: nuget-server
+version: 0.0.1
+home: https://github.com/rolfwessels/docker-simple-nuget-server
+description: A very simple NuGet server.
+keywords:
+  - nuget
+sources:
+  - https://github.com/Daniel15/simple-nuget-server
+  - https://github.com/rolfwessels/docker-simple-nuget-server
+  - https://hub.docker.com/r/rolfwessels/docker-simple-nuget-server/
+maintainers:
+  - name: msschl
+    email: markus_schlotbohm@as-gmbh.de

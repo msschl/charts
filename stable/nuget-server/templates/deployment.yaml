@@ -1,0 +1,64 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ template "nuget-server.fullname" . }}
+  labels:
+    app: {{ template "nuget-server.fullname" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+spec:
+  template:
+    metadata:
+      labels:
+        app: {{ template "nuget-server.fullname" . }}
+{{- with .Values.podLabels }}
+{{ toYaml . | indent 8 }}
+{{- end }}
+{{- with .Values.podAnnotations }}
+      annotations:
+{{ toYaml . | indent 8 }}
+{{- end }}
+    spec:
+      {{- if .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml .Values.nodeSelector | indent 8 }}
+      {{- end }}
+      {{- if .Values.tolerations }}
+      tolerations:
+{{ toYaml .Values.tolerations | indent 8 }}
+      {{- end }}
+      containers:
+      - name: {{ template "nuget-server.fullname" . }}
+        image: "{{ .Values.image }}:{{ .Values.imageTag }}"
+        imagePullPolicy: {{ .Values.imagePullPolicy | quote }}
+        resources:
+{{ toYaml .Values.resources | indent 10 }}
+        env:
+        - name: NUGET_SERVER_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: {{ template "nuget-server.secretName" . }}
+              key: NUGET_API_KEY
+              optional: true
+        - name: NUGET_HOST
+          value: {{ .Values.nugetHost | quote }}
+        - name: NUGET_DEFAULT_HTTP
+          value: {{ .Values.nugetDefaultHttp | quote }}
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: data
+          mountPath: /app/db
+          subPath: db
+        - name: data
+          mountPath: /app/packagefiles
+          subPath: packagefiles
+      volumes:
+      - name: data
+      {{- if .Values.persistence.enabled }}
+        persistentVolumeClaim:
+          claimName: {{ .Values.persistence.existingClaim | default (include "nuget-server.fullname" .) }}
+      {{- else }}
+        emptyDir: {}
+      {{- end }}
