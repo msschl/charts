@@ -30,3 +30,14 @@ Generate chart secret name
 {{- define "nuget-server.secretName" -}}
 {{ default (include "nuget-server.fullname" .) .Values.existingSecret }}
 {{- end -}}
+
+{{/*
+Create the name of the service account to use - only used when podsecuritypolicy is also enabled
+*/}}
+{{- define "nuget-server.serviceAccountName" -}}
+{{- if .Values.serviceAccount.create -}}
+    {{ default (printf "%s" (include "nuget-server.fullname" .)) .Values.serviceAccount.name }}
+{{- else -}}
+    {{ default "default" .Values.serviceAccount.name }}
+{{- end -}}
+{{- end -}}

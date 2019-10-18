@@ -28,10 +28,13 @@ spec:
       tolerations:
 {{ toYaml .Values.tolerations | indent 8 }}
       {{- end }}
+      serviceAccountName: {{ template "nuget-server.serviceAccountName" . }}
       containers:
       - name: {{ template "nuget-server.fullname" . }}
-        image: "{{ .Values.image }}:{{ .Values.imageTag }}"
-        imagePullPolicy: {{ .Values.imagePullPolicy | quote }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
+        securityContext:
+          runAsUser: {{ .Values.image.runAsUser }}
         resources:
 {{ toYaml .Values.resources | indent 10 }}
         env:

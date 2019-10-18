@@ -1,0 +1,19 @@
+{{- if and .Values.rbac.create .Values.podSecurityPolicy.enabled -}}
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: RoleBinding
+metadata:
+  labels:
+    app: {{ template "nuget-server.fullname" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+  name: {{ template "nuget-server.fullname" . }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: {{ template "nuget-server.fullname" . }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ template "nuget-server.serviceAccountName" . }}
+    namespace: {{ .Release.Namespace }}
+{{- end -}}

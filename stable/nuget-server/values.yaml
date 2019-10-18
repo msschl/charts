@@ -10,14 +10,13 @@ nugetDefaultHttp: http
 ## rolfwessels nuget-server image version
 ## ref: https://hub.docker.com/r/rolfwessels/docker-simple-nuget-server/
 ##
-image: "rolfwessels/docker-simple-nuget-server"
-imageTag: "v1.1.11"
-
-## Specify an imagePullPolicy (Required)
-## It's recommended to change this to 'Always' if the image tag is 'latest'
-## ref: http://kubernetes.io/docs/user-guide/images/#updating-images
-##
-imagePullPolicy: IfNotPresent
+image:
+  repository: rolfwessels/docker-simple-nuget-server
+  tag: "v1.1.11"
+  pullPolicy: IfNotPresent
+  # www-data -> uid 33
+  # TODO: do not run as root
+  runAsUser: 0
 
 ## Configure resource requests and limits
 ## ref: http://kubernetes.io/docs/user-guide/compute-resources/
@@ -26,6 +25,19 @@ resources:
   limits:
     memory: 100Mi
     cpu: 50m
+
+## Enable RBAC as per https://github.com/kubernetes/ingress/tree/master/examples/rbac/nginx and https://github.com/kubernetes/ingress/issues/266
+rbac:
+  create: true
+
+# If true, create & use Pod Security Policy resources
+# https://kubernetes.io/docs/concepts/policy/pod-security-policy/
+podSecurityPolicy:
+  enabled: false
+
+serviceAccount:
+  create: true
+  name:
 
 ## Node selector
 ## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector
