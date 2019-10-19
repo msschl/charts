@@ -18,6 +18,9 @@ image:
   # TODO: do not run as root
   runAsUser: 0
 
+# Can be changed to old api for compatibility reasons: extensions/v1beta1
+apiVersion: apps/v1
+
 ## Configure resource requests and limits
 ## ref: http://kubernetes.io/docs/user-guide/compute-resources/
 ##

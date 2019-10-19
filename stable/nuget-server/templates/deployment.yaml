@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: {{ .Values.apiVersion }}
 kind: Deployment
 metadata:
   name: {{ template "nuget-server.fullname" . }}
@@ -8,10 +8,15 @@ metadata:
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
 spec:
+  selector:
+    matchLabels:
+      app: {{ template "nuget-server.fullname" . }}
+      release: "{{ .Release.Name }}"
   template:
     metadata:
       labels:
         app: {{ template "nuget-server.fullname" . }}
+        release: "{{ .Release.Name }}"
 {{- with .Values.podLabels }}
 {{ toYaml . | indent 8 }}
 {{- end }}
