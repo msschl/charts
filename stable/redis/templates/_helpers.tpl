@@ -43,6 +43,17 @@ Return the appropriate apiVersion for networkpolicy.
 {{- end -}}
 
 {{/*
+Return the appropriate apiVersion for statefulset.
+*/}}
+{{- define "statefulSet.apiVersion" -}}
+{{- if semverCompare ">=1.16-0" .Capabilities.KubeVersion.GitVersion -}}
+{{- print "apps/v1" -}}
+{{- else -}}
+{{- print "apps/v1beta2" -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
 Return the proper Redis image name
 */}}
 {{- define "redis.image" -}}
