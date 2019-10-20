@@ -1,5 +1,5 @@
 {{- if .Values.podSecurityPolicy.enabled -}}
-apiVersion: {{ .Values.podSecurityPolicy.apiVersion }}
+apiVersion: {{ template "podSecurityPolicy.apiVersion" . }}
 kind: PodSecurityPolicy
 metadata:
   name: {{ template "nuget-server.fullname" . }}

@@ -1,4 +1,4 @@
-apiVersion: {{ .Values.apiVersion }}
+apiVersion: {{ template "deployment.apiVersion" . }}
 kind: Deployment
 metadata:
   name: {{ template "nuget-server.fullname" . }}

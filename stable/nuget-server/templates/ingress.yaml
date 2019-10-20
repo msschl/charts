@@ -2,7 +2,7 @@
 {{- $fullName := include "nuget-server.fullname" . -}}
 {{- $servicePort := .Values.service.port -}}
 {{- $ingressPath := .Values.ingress.path -}}
-apiVersion: {{ .Values.ingress.apiVersion }}
+apiVersion: {{ template "ingress.apiVersion" . }}
 kind: Ingress
 metadata:
   name: {{ $fullName }}

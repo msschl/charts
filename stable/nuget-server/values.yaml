@@ -18,9 +18,6 @@ image:
   # TODO: do not run as root
   runAsUser: 0
 
-# Can be changed to old api for compatibility reasons: extensions/v1beta1
-apiVersion: apps/v1
-
 ## Configure resource requests and limits
 ## ref: http://kubernetes.io/docs/user-guide/compute-resources/
 ##
@@ -37,9 +34,6 @@ rbac:
 # https://kubernetes.io/docs/concepts/policy/pod-security-policy/
 podSecurityPolicy:
   enabled: false
-
-  # Can be changed to old api for compatibility reasons: extensions/v1beta1
-  apiVersion: policy/v1beta1
 
 serviceAccount:
   create: true
@@ -87,10 +81,6 @@ service:
 
 ingress:
   enabled: false
-
-  # Can be changed to old api for compatibility reasons: extensions/v1beta1
-  apiVersion: networking.k8s.io/v1beta1
-
   annotations: {}
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
