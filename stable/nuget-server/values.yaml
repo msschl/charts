@@ -38,6 +38,9 @@ rbac:
 podSecurityPolicy:
   enabled: false
 
+  # Can be changed to old api for compatibility reasons: extensions/v1beta1
+  apiVersion: policy/v1beta1
+
 serviceAccount:
   create: true
   name:
