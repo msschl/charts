@@ -43,13 +43,13 @@ Return the appropriate apiVersion for networkpolicy.
 {{- end -}}
 
 {{/*
-Return the appropriate apiVersion for statefulset.
+Return the appropriate apiVersion for PodSecurityPolicy.
 */}}
-{{- define "statefulSet.apiVersion" -}}
-{{- if semverCompare ">=1.16-0" .Capabilities.KubeVersion.GitVersion -}}
-{{- print "apps/v1" -}}
+{{- define "podSecurityPolicy.apiVersion" -}}
+{{- if semverCompare ">=1.14-0" .Capabilities.KubeVersion.GitVersion -}}
+{{- print "policy/v1beta1" -}}
 {{- else -}}
-{{- print "apps/v1beta2" -}}
+{{- print "extensions/v1beta1" -}}
 {{- end -}}
 {{- end -}}
 

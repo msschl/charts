@@ -1,24 +1,39 @@
-{{- if .Values.podSecurityPolicy.enabled -}}
-apiVersion: policy/v1beta1
+{{- if .Values.podSecurityPolicy.create }}
+apiVersion: {{ include "podSecurityPolicy.apiVersion" . }}
 kind: PodSecurityPolicy
 metadata:
   name: {{ template "redis.fullname" . }}
   labels:
     app: {{ template "redis.name" . }}
     chart: {{ template "redis.chart" . }}
-    release: "{{ .Release.Name }}"
-    heritage: "{{ .Release.Service }}"
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
 spec:
+  allowPrivilegeEscalation: false
   fsGroup:
-    rule: RunAsAny
+    rule: 'MustRunAs'
+    ranges:
+      - min: {{ .Values.securityContext.fsGroup }}
+        max: {{ .Values.securityContext.fsGroup }}
+  hostIPC: false
+  hostNetwork: false
+  hostPID: false
+  privileged: false
+  readOnlyRootFilesystem: false
+  requiredDropCapabilities:
+    - ALL
   runAsUser:
-    rule: MustRunAsNonRoot
+    rule: 'MustRunAs'
+    ranges:
+      - min: {{ .Values.securityContext.runAsUser }}
+        max: {{ .Values.securityContext.runAsUser }}
   seLinux:
-    rule: RunAsAny
+    rule: 'RunAsAny'
   supplementalGroups:
-    rule: RunAsAny
+    rule: 'MustRunAs'
+    ranges:
+      - min: {{ .Values.securityContext.runAsUser }}
+        max: {{ .Values.securityContext.runAsUser }}
   volumes:
-  - secret
-  - configMap
-  - emptyDir
-{{- end -}}
+    - '*'
+{{- end }}
