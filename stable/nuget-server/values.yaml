@@ -13,7 +13,7 @@ nugetDefaultHttp: http
 image:
   repository: rolfwessels/docker-simple-nuget-server
   tag: "v1.1.11"
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
   # www-data -> uid 33
   # TODO: do not run as root
   runAsUser: 0
