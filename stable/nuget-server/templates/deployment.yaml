@@ -39,32 +39,40 @@ spec:
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
         securityContext:
-          privileged: true
           runAsUser: {{ .Values.image.runAsUser }}
           capabilities:
-            add: ["NET_BIND_SERVICE"]
+            drop:
+            - ALL
+            add:
+            - NET_BIND_SERVICE
         resources:
 {{ toYaml .Values.resources | indent 10 }}
         env:
-        - name: NUGET_API_KEY
+        - name: ApiKey
           valueFrom:
             secretKeyRef:
               name: {{ template "nuget-server.secretName" . }}
               key: NUGET_SERVER_API_KEY
               optional: true
-        - name: NUGET_HOST
-          value: {{ .Values.nugetHost | quote }}
-        - name: NUGET_DEFAULT_HTTP
-          value: {{ .Values.nugetDefaultHttp | quote }}
+        - name: Storage__Path
+          value: "/var/nuget"
+        - name: Database__Type
+          value: "Sqlite"
+        - name: Database__ConnectionString
+          value: "Data Source=/var/nuget/database.db"
+        - name: Search__Type
+          value: "Database"
+        - name: Mirror__Enabled
+          value: "true"
+        - name: Mirror__PackageSource
+          value: "https://api.nuget.org/v3/index.json"
+        - name: PackageDeletionBehavior
+          value: "HardDelete"
         ports:
         - containerPort: 80
         volumeMounts:
         - name: data
-          mountPath: /app/db
-          subPath: db
-        - name: data
-          mountPath: /app/packagefiles
-          subPath: packagefiles
+          mountPath: /var/nuget
       volumes:
       - name: data
       {{- if .Values.persistence.enabled }}

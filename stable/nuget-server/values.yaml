@@ -1,21 +1,13 @@
 ## The nuget api key
 nugetApiKey: ""
 
-## The nuget host override
-nugetHost: localhost
-
-## Allows forcing https
-nugetDefaultHttp: http
-
-## rolfwessels nuget-server image version
-## ref: https://hub.docker.com/r/rolfwessels/docker-simple-nuget-server/
+## loicsharma/baget nuget-server image version
+## ref: https://hub.docker.com/r/loicsharma/baget
 ##
 image:
-  repository: rolfwessels/docker-simple-nuget-server
-  tag: "v1.1.11"
+  repository: loicsharma/baget
+  tag: "latest"
   pullPolicy: Always
-  # www-data -> uid 33
-  # TODO: do not run as root
   runAsUser: 0
 
 ## Configure resource requests and limits

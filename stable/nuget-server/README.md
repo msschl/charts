@@ -1,6 +1,6 @@
 # nuget-server
 
-[nuget-server](https://github.com/rolfwessels/docker-simple-nuget-server) is an simple nuget server in php.
+[nuget-server](https://github.com/loic-sharma/BaGet) is an simple nuget server in php.
 
 ## TL;DR;
 
