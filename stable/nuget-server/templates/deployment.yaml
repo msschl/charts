@@ -70,7 +70,7 @@ spec:
           value: "HardDelete"
         ports:
         - name: http
-          containerPort: 5000
+          containerPort: 80
         volumeMounts:
         - name: data
           mountPath: /var/nuget
