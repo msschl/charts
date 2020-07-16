@@ -69,7 +69,8 @@ spec:
         - name: PackageDeletionBehavior
           value: "HardDelete"
         ports:
-        - containerPort: 80
+        - name: http
+          containerPort: 5000
         volumeMounts:
         - name: data
           mountPath: /var/nuget
